@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проверка...</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    color: white;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    font-weight: bold;
+    animation: pulse 1.5s ease-in-out infinite;
+    z-index: 100;
+}
+
+#main {
+    display: none;
+    padding: 40px 20px;
+    animation: fade 1.5s ease-in;
+    max-width: 600px;
+}
+
+img {
+    width: 300px;
+    max-width: 90%;
+    border-radius: 25px;
+    box-shadow: 0 0 40px #ff3d7f, 0 0 60px rgba(255, 61, 127, 0.5);
+    margin: 30px 0;
+    border: 3px solid #ff4d88;
+    transition: transform 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.05);
+}
+
+h1 {
+    color: #ff4d88;
+    font-size: 42px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(255, 61, 127, 0.6);
+    animation: slideDown 0.8s ease-out;
+}
+
+h2 {
+    color: #ff69b4;
+    font-size: 32px;
+    margin: 20px 0;
+    animation: slideUp 0.8s ease-out 0.2s both;
+}
+
+p {
+    font-size: 20px;
+    line-height: 1.8;
+    margin: 15px 0;
+    animation: slideUp 0.8s ease-out 0.4s both;
+}
+
+.status {
+    background: rgba(255, 61, 127, 0.1);
+    border: 2px solid #ff4d88;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.8s ease-out 0.6s both;
+}
+
+.heart {
+    position: fixed;
+    top: -20px;
+    font-size: 28px;
+    animation: fall linear forwards;
+    pointer-events: none;
+}
+
+.heart-burst {
+    position: fixed;
+    font-size: 40px;
+    animation: burst 0.8s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fade {
+    from { 
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% { 
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes burst {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Звёзды в фоне */
+.star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+🔍 Проверяем данные...
+</div>
+
+<div id="main">
+<h1>❤️ Проверка завершена ❤️</h1>
+
+<img src="https://via.placeholder.com/300?text=Ваше+фото" alt="Фото">
+
+<p>Результат проверки:</p>
+
+<h2>Самая красивая девушка ❤️</h2>
+
+<div class="status">
+    <p>
+        <strong>Статус:</strong><br>
+        💖 Любимая девушка Егора<br><br>
+        
+        <strong>Ошибка системы:</strong><br>
+        ⚠️ Разлюбить невозможно
+    </p>
+</div>
+
+<p style="margin-top: 30px; font-size: 24px;">
+    ✨ Спасибо, что ты есть ✨
+</p>
+</div>
+
+<script>
+
+// Создание звёзд в фоне
+function createStars() {
+    for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        document.body.appendChild(star);
+    }
+}
+
+createStars();
+
+// Переход с экрана загрузки
+setTimeout(function(){
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("main").style.display = "block";
+    
+    // Взрыв сердец при появлении
+    createHeartBurst();
+}, 3500);
+
+// Плавающие сердца
+setInterval(function(){
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤️";
+    
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = (3 + Math.random() * 4) + "s";
+    
+    document.body.appendChild(h);
+    
+    setTimeout(() => h.remove(), 7000);
+}, 250);
+
+// Взрыв сердец
+function createHeartBurst() {
+    const x = window.innerWidth / 2;
+    const y = window.innerHeight / 2;
+    
+    for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-burst';
+        heart.innerHTML = '❤️';
+        
+        const angle = (i / 20) * Math.PI * 2;
+        const distance = 150;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        heart.style.setProperty('--tx', tx + 'px');
+        heart.style.setProperty('--ty', ty + 'px');
+        
+        document.body.appendChild(heart);
+        
+        setTimeout(() => heart.remove(), 800);
+    }
+}
+
+// Клик для дополнительного взрыва сердец
+document.addEventListener('click', function(e) {
+    const heart = document.createElement('div');
+    heart.className = 'heart-burst';
+    heart.innerHTML = '❤️';
+    
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 100 + Math.random() * 150;
+    const tx = Math.cos(angle) * distance;
+    const ty = Math.sin(angle) * distance;
+    
+    heart.style.left = e.clientX + 'px';
+    heart.style.top = e.clientY + 'px';
+    heart.style.setProperty('--tx', tx + 'px');
+    heart.style.setProperty('--ty', ty + 'px');
+    
+    document.body.appendChild(heart);
+    
+    setTimeout(() => heart.remove(), 800);
+});
+
+</script>
+
+</body>
+</html>
